@@ -24,24 +24,27 @@ class AdvancedUserOperations:
         )
         self.conn.commit()
         return "Created a new record with ID: "+str(self.cursor.lastrowid)
-    
+
     def retrieve_users_by_criteria(self, min_age=None, max_age=None, gender=None):
         sql = 'SELECT * FROM user WHERE age >= ? AND age <= ? AND gender = ?'
-        self.cursor.execute(sql, 
+        self.cursor.execute(sql,
             (min_age, max_age, gender)
         )
         results = self.cursor.fetchall()
         # print(self.cursor.execute("SELECT * FROM user"))
-        print(self.cursor.execute("SELECT * FROM user").fetchall())
+        # print(self.cursor.execute("SELECT * FROM user").fetchall())
         return results
     def update_user_profile(self, email, age=None, gender=None, address=None):
-        affected_rows = self.cursor.execute(
-            'UPDATE user SET age=?, gender=?, address=? WHERE email=?',
-            (age, gender, address, email)
-        )
+        fields_str = 'age=?, address=?'
+        fields_list = [age, address, email]
+        if gender is not None:
+            fields_str = "gender=?, " + fields_str
+            fields_list = fields_list.insert(0,gender)
+        sql = f'UPDATE user SET {fields_str} WHERE email=?'
+        affected_rows = self.cursor.execute(sql,fields_list)
         self.conn.commit()
         return "Updated "+str(affected_rows.rowcount) + " Row(s)"
-    
+
     def delete_users_by_criteria(self, gender=None):
         pass
     def __del__(self):
