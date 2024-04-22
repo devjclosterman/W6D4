@@ -11,7 +11,7 @@ users = advanced_user_ops.retrieve_users_by_criteria(min_age=25, max_age=40, gen
 print("Retrieved users:", users)
 # Test updating user profile information
 print("\nUpdating user profile...")
-result_update = advanced_user_ops.update_user_profile('john.doe@example.com', age=35, address='456 Oak St')
+result_update = advanced_user_ops.update_user_profile('john.doe@example.com', age=35, address='1234 roger rd')
 print("User profile update result:", result_update)
 # Test deleting users based on specified criteria
 print("\nDeleting users...")

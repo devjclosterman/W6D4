@@ -43,10 +43,18 @@ class AdvancedUserOperations:
         sql = f'UPDATE user SET {fields_str} WHERE email=?'
         affected_rows = self.cursor.execute(sql,fields_list)
         self.conn.commit()
+        print(sql)
         return "Updated "+str(affected_rows.rowcount) + " Row(s)"
+    
 
     def delete_users_by_criteria(self, gender=None):
-        pass
+        # sql = "DELETE from user WHERE gender='"+gender+"'"
+        sql = "DELETE from user WHERE gender=?"
+        # self.cursor.execute(sql)
+        self.cursor.execute(sql, [gender])
+        # print(sql)
+        self.conn.commit()
+
     def __del__(self):
         self.conn.close()
 
